@@ -47,38 +47,6 @@ const GET_ISSUES_OF_REPOSITORY = `
 }
 `
 
-// query shaper
-const getIssuesOfRepositoryQuery = (organization, repository) => `
-{
-
-  organization(login: "${organization}") {
-    name
-    url
-    repository(name: "${repository}" ){
-      name
-      url
-      issues(last: 5, states: [OPEN]){
-        edges {
-          node {
-            id
-            title
-            url
-            reactions(last: 3){
-              edges {
-                node {
-                  id
-                  content
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-`
-
 // query-creator
 const getIssuesOfRepository = path => {
   const [organization, repository] = path.split('/');
@@ -130,24 +98,23 @@ class App extends Component {
           {`🚧 ${TITLE}`}
         </h2>
         <form onSubmit={this.onSubmit}>
+          >
           <label htmlFor="url">
+
             Show open issues for<br></br>
           </label>
-          <div>
-            <label htmlFor="url">
-              https://github.com/
-            </label>
-            <input
-              id="url"
-              type="text"
-              onChange={this.onChange}
-              value={path}
-              style={{ width: '360px', marginRight: '20px' }}
-            >
-            </input>
-
-            <button type="submit">Search</button>
-          </div>
+          <label htmlFor="url">
+            https://github.com/
+        </label>
+          <input
+            id="url"
+            type="text"
+            onChange={this.onChange}
+            value={path}
+            style={{ width: '360px', marginRight: '20px' }}
+          >
+          </input>
+          <button type="submit">Search</button>
         </form>
         <hr />
         {
