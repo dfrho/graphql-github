@@ -142,7 +142,7 @@ class App extends Component {
         <form onSubmit={this.onSubmit}>
 
           <label htmlFor="url">
-            Enter search terms in <i>[Organization Name/Repo Name]</i> format<br></br>
+            Enter search terms in <i>[organization name/repo name]</i> format<br></br>
           </label>
           <label htmlFor="url">
             https://github.com/

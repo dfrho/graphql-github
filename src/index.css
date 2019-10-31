@@ -14,4 +14,11 @@ code {
 
 ul {
   list-style-type: none;
+
+  margin: 0 auto 0 -3rem;
+}
+
+li {
+  list-style-type: none;
+  display: inline;
 }

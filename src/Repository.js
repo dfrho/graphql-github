@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import translate from 'moji-translate';
 
 const Repository = ({ repository, onFetchMoreIssues }) =>
   (
@@ -10,12 +11,16 @@ const Repository = ({ repository, onFetchMoreIssues }) =>
       </p>
       {repository.issues.edges.map(issue =>
         <Stacked>
+          <hr />
           <a href={issue.node.url}>{issue.node.title}</a>
           <ul>
             {issue && issue.node && issue.node.reactions && issue.node.reactions.edges.map(reaction => (
-              <li key={reaction.node.id}>{reaction.node.content}</li>
+              <li key={reaction.node.id}>
+                {translate.translate(reaction.node.content.replace('_', ''))}
+              </li>
             ))}
           </ul>
+
         </Stacked>
       )}
       <hr />
