@@ -51,14 +51,14 @@ const resolveIssuesQuery = (queryResult, cursor) => state => {
 };
 
 const ADD_STAR = `
-  mutation($repositoryId: ID!){
-    addStar(input:(starrableId: $repositoryId)){
+  mutation ($repositoryId: ID!) {
+    addStar(input:{starrableId:$repositoryId}) {
       starrable {
         viewerHasStarred
       }
     }
   }
-`
+`;
 
 // query shaper
 const GET_ISSUES_OF_REPOSITORY = `
@@ -70,6 +70,9 @@ const GET_ISSUES_OF_REPOSITORY = `
         id
         name
         url
+        stargazers {
+          totalCount
+        }
         viewerHasStarred
         issues(first: 5, after: $cursor, states: [OPEN]) {
           edges {
@@ -109,12 +112,11 @@ const getIssuesOfRepository = (path, cursor) => {
 }
 
 const addStarToRepo = repositoryId => {
-  return axiosGitHubGraphQL
-    .post('', {
-      query: ADD_STAR,
-      variables: { repositoryId }
-    })
-}
+  return axiosGitHubGraphQL.post('', {
+    query: ADD_STAR,
+    variables: { repositoryId },
+  });
+};
 
 class App extends Component {
   state = {
@@ -172,19 +174,21 @@ class App extends Component {
               <label htmlFor="url">
                 Enter search terms in <i>[organization name/repo name]</i> format<br></br>
               </label>
-              <label htmlFor="url">
-                https://github.com/
-        </label>
 
-              <input
-                id="url"
-                type="text"
-                onChange={this.onChange}
-                value={path}
-                style={{ width: '360px', marginRight: '20px' }}
-              >
-              </input>
-              <Button variant="outlined" type="submit">search</Button>
+              <div className="search-bar">
+                <label htmlFor="url">
+                  https://github.com/
+                </label>
+                <input
+                  id="url"
+                  type="text"
+                  onChange={this.onChange}
+                  value={path}
+                  style={{ width: '360px', marginRight: '20px' }}
+                >
+                </input>
+                <Button variant="outlined" type="submit">search</Button>
+              </div>
             </form>
           </div>
         </Paper>

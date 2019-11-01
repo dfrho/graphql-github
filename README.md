@@ -14,19 +14,18 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### `yarn` or `yarn install`
 
-then:
+### secure your environment with api key
+
+In the project root directory (next to src folder), run `touch .env`. Open the file then enter your new Github Personal Access Token created using [this guide](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) as :
+`REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN=abcdthisisnotarealkey1245679` (no string quotation marks).
+
+Add `.env` to your .gitignore to avoid broadcasting your secure key to the universe.
+
+Then start the app:
 
 ### `yarn start`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Given the API key, the app assumes the user is a GitHub user and can search for organization and repo combinations. The results are a paginated list of open issues with the corresponding first one to three emoji responses, if any.

@@ -7,7 +7,7 @@ import './index.css';
 const Repository = ({ repository, onFetchMoreIssues, onStarRepo }) =>
   (
     <div>
-      <p>
+      <p className="strong">
         <strong>{`In Its GitHub Repository: `}</strong>
         <a href={repository.url}>{`${repository.name}`}</a>
       </p>

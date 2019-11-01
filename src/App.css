@@ -13,7 +13,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(12px + 2vmin);
   color: white;
 }
 
@@ -22,8 +22,8 @@
 }
 
 body {
-  padding: 5%;
-  line-height: 1.6;
+  padding: 2% 5%;
+  line-height: 21.6;
 }
 
 button {
@@ -35,6 +35,7 @@ button {
 
 input {
   color: black;
+  font-size: calc(3px + 2vmin);
 }
 
 .paper-container {
