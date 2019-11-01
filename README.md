@@ -2,7 +2,7 @@
 
 Consuming the GraphQL-based Github API, users can browse Github issues (and first three emoji reactions, if any) by entering an organization's repo name. Assumes a forward slash between both fields, as in "facebook/create-react-app".
 
-![app screenshot](./public/screenshot.png)
+![app screenshot](./public/screenShot.png)
 
 With poor form validation and a very basic front-end, this is still a great practice application for building GraphQL applications, based on Robin Wierich's [The Road to GraphQL](https://roadtoreact.com/course-details?courseId=THE_ROAD_TO_GRAPHQL).
 
