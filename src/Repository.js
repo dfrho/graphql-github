@@ -1,5 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import styled from 'styled-components';
 import translate from 'moji-translate';
 import './index.css';
 
@@ -10,9 +11,9 @@ const Repository = ({ repository, onFetchMoreIssues, onStarRepo }) =>
         <strong>{`In Its GitHub Repository: `}</strong>
         <a href={repository.url}>{`${repository.name}`}</a>
       </p>
-      <button onClick={() => onStarRepo()}>
+      <Button variant="outlined" type="button" onClick={() => onStarRepo(repository.id, repository.viewerHasStarred)}>
         {repository.viewerHasStarred ? 'unstar' : 'star'}
-      </button>
+      </Button>
       {repository.issues.edges.map(issue =>
         <Stacked>
           <hr />
@@ -28,7 +29,7 @@ const Repository = ({ repository, onFetchMoreIssues, onStarRepo }) =>
         </Stacked>
       )}
       <hr />
-      {repository.issues.pageInfo.hasNextPage && <button onClick={onFetchMoreIssues}>More</button>}
+      {repository.issues.pageInfo.hasNextPage && <Button variant="outlined" onClick={onFetchMoreIssues}>More</Button>}
     </div>
   )
 

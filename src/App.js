@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
 import './App.css';
-import Organization from './Organization'
+import Organization from './Organization';
 
 
 // axios creator
@@ -48,6 +50,16 @@ const resolveIssuesQuery = (queryResult, cursor) => state => {
   };
 };
 
+const ADD_STAR = `
+  mutation($repositoryId: ID!){
+    addStar(input:(starrableId: $repositoryId)){
+      starrable {
+        viewerHasStarred
+      }
+    }
+  }
+`
+
 // query shaper
 const GET_ISSUES_OF_REPOSITORY = `
   query ($organization: String!, $repository: String!, $cursor: String) {
@@ -86,13 +98,21 @@ const GET_ISSUES_OF_REPOSITORY = `
   }
 `;
 
-// query-creator
+// query-creators
 const getIssuesOfRepository = (path, cursor) => {
   const [organization, repository] = path.split('/');
   return axiosGitHubGraphQL
     .post('', {
       query: GET_ISSUES_OF_REPOSITORY,
       variables: { organization, repository, cursor }
+    })
+}
+
+const addStarToRepo = repositoryId => {
+  return axiosGitHubGraphQL
+    .post('', {
+      query: ADD_STAR,
+      variables: { repositoryId }
     })
 }
 
@@ -133,8 +153,8 @@ class App extends Component {
     this.onFetchFromGitHub(this.state.path, endCursor);
   }
 
-  onStarRepo = () => {
-
+  onStarRepo = (repoId, viewerHasStarred) => {
+    addStarToRepo(repoId)
   }
 
   render() {
@@ -142,28 +162,33 @@ class App extends Component {
 
     return (
       <div className="App" >
-        <h2 className="App-header">
-          {`🚧 ${TITLE}`}
-        </h2>
-        <form onSubmit={this.onSubmit}>
+        <Paper>
+          <div className="paper-container">
+            <h2 className="App-header">
+              {`🚧 ${TITLE}`}
+            </h2>
+            <form onSubmit={this.onSubmit}>
 
-          <label htmlFor="url">
-            Enter search terms in <i>[organization name/repo name]</i> format<br></br>
-          </label>
-          <label htmlFor="url">
-            https://github.com/
+              <label htmlFor="url">
+                Enter search terms in <i>[organization name/repo name]</i> format<br></br>
+              </label>
+              <label htmlFor="url">
+                https://github.com/
         </label>
-          <input
-            id="url"
-            type="text"
-            onChange={this.onChange}
-            value={path}
-            style={{ width: '360px', marginRight: '20px' }}
-          >
-          </input>
-          <button type="submit">search</button>
-        </form>
-        <hr />
+
+              <input
+                id="url"
+                type="text"
+                onChange={this.onChange}
+                value={path}
+                style={{ width: '360px', marginRight: '20px' }}
+              >
+              </input>
+              <Button variant="outlined" type="submit">search</Button>
+            </form>
+          </div>
+        </Paper>
+
         {
           organization ? (
             <Organization onStarRepo={this.onStarRepo} onFetchMoreIssues={this.onFetchMoreIssues} organization={organization} errors={errors}></Organization>
