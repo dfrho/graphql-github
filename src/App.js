@@ -55,8 +55,10 @@ const GET_ISSUES_OF_REPOSITORY = `
       name
       url
       repository(name: $repository) {
+        id
         name
         url
+        viewerHasStarred
         issues(first: 5, after: $cursor, states: [OPEN]) {
           edges {
             node {
@@ -131,12 +133,16 @@ class App extends Component {
     this.onFetchFromGitHub(this.state.path, endCursor);
   }
 
+  onStarRepo = () => {
+
+  }
+
   render() {
     const { organization, path, errors } = this.state;
 
     return (
       <div className="App" >
-        <h2>
+        <h2 className="App-header">
           {`🚧 ${TITLE}`}
         </h2>
         <form onSubmit={this.onSubmit}>
@@ -155,12 +161,12 @@ class App extends Component {
             style={{ width: '360px', marginRight: '20px' }}
           >
           </input>
-          <button type="submit">Search</button>
+          <button type="submit">search</button>
         </form>
         <hr />
         {
           organization ? (
-            <Organization onFetchMoreIssues={this.onFetchMoreIssues} organization={organization} errors={errors}></Organization>
+            <Organization onStarRepo={this.onStarRepo} onFetchMoreIssues={this.onFetchMoreIssues} organization={organization} errors={errors}></Organization>
           ) : (
               <p>Loading...</p>
             )

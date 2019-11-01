@@ -1,14 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
 import translate from 'moji-translate';
+import './index.css';
 
-const Repository = ({ repository, onFetchMoreIssues }) =>
+const Repository = ({ repository, onFetchMoreIssues, onStarRepo }) =>
   (
     <div>
       <p>
         <strong>{`In Its GitHub Repository: `}</strong>
         <a href={repository.url}>{`${repository.name}`}</a>
       </p>
+      <button onClick={() => onStarRepo()}>
+        {repository.viewerHasStarred ? 'unstar' : 'star'}
+      </button>
       {repository.issues.edges.map(issue =>
         <Stacked>
           <hr />

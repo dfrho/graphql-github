@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
 }
 
 code {
@@ -14,11 +15,13 @@ code {
 
 ul {
   list-style-type: none;
-
-  margin: 0 auto 0 -3rem;
+  margin: 0 auto;
+  display: inline;
 }
 
 li {
   list-style-type: none;
   display: inline;
+  margin: 0 auto;
+  padding: 0;
 }
