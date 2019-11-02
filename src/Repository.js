@@ -4,14 +4,15 @@ import styled from 'styled-components';
 import translate from 'moji-translate';
 import './index.css';
 
-const Repository = ({ repository, onFetchMoreIssues, onStarRepo }) =>
+const Repository = ({ repository, onFetchMoreIssues, onToggleStarRepo }) =>
   (
     <div>
       <p className="strong">
         <strong>{`In Its GitHub Repository: `}</strong>
         <a href={repository.url}>{`${repository.name}`}</a>
       </p>
-      <Button variant="outlined" type="button" onClick={() => onStarRepo(repository.id, repository.viewerHasStarred)}>
+      <Button variant="outlined" type="button" onClick={() => onToggleStarRepo(repository.id, repository.viewerHasStarred)}>
+        {repository.stargazers.totalCount}{' '}
         {repository.viewerHasStarred ? 'unstar' : 'star'}
       </Button>
       {repository.issues.edges.map(issue =>

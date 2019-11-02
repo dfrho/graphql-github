@@ -6,7 +6,12 @@ Consuming the GraphQL-based Github API, users can browse Github issues (and firs
 
 With poor form validation and a very basic front-end, this is still a great practice application for building GraphQL applications, based on Robin Wierich's [The Road to GraphQL](https://roadtoreact.com/course-details?courseId=THE_ROAD_TO_GRAPHQL).
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Given the API key, the app assumes the user is a GitHub user and can search for organization and repo combinations. Features include
+
+-   default display of five most recent open issues,
+-   pagination,
+-   starring and unstarring the repo,
+-   total star count inside star toggle button
 
 ## Available Scripts
 
@@ -21,11 +26,9 @@ In the project root directory (next to src folder), run `touch .env`. Open the f
 
 Add `.env` to your .gitignore to avoid broadcasting your secure key to the universe.
 
-Then start the app:
+Then start the app, now as a pre-authorized github user:
 
 ### `yarn start`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-Given the API key, the app assumes the user is a GitHub user and can search for organization and repo combinations. The results are a paginated list of open issues with the corresponding first one to three emoji responses, if any.

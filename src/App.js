@@ -18,9 +18,46 @@ const axiosGitHubGraphQL = axios.create({
 
 const TITLE = 'GitHub Repo Issue Tracker'
 
-// results resolver shapes return data to local state
-const resolveIssuesQuery = (queryResult, cursor) => state => {
+// results resolvers shape return data for local state
+const resolveAddStarMutation = mutationResult => state => {
+  const { viewerHasStarred } = mutationResult.data.data.addStar.starrable;
+  const { totalCount } = state.organization.repository.stargazers;
 
+  return {
+    ...state,
+    organization: {
+      ...state.organization,
+      repository: {
+        ...state.organization.repository,
+        viewerHasStarred,
+        stargazers: {
+          totalCount: totalCount + 1
+        }
+      }
+    }
+  }
+}
+
+const resolveRemoveStarMutation = mutationResult => state => {
+  const { viewerHasStarred } = mutationResult.data.data.removeStar.starrable;
+  const { totalCount } = state.organization.repository.stargazers;
+
+  return {
+    ...state,
+    organization: {
+      ...state.organization,
+      repository: {
+        ...state.organization.repository,
+        viewerHasStarred,
+        stargazers: {
+          totalCount: totalCount - 1
+        }
+      }
+    }
+  }
+}
+
+const resolveIssuesQuery = (queryResult, cursor) => state => {
   const { data, errors } = queryResult.data;
 
   if (!cursor) {
@@ -53,6 +90,17 @@ const resolveIssuesQuery = (queryResult, cursor) => state => {
 const ADD_STAR = `
   mutation ($repositoryId: ID!) {
     addStar(input:{starrableId:$repositoryId}) {
+      starrable {
+        viewerHasStarred
+      }
+    }
+  }
+`;
+
+
+const REMOVE_STAR = `
+  mutation ($repositoryId: ID!) {
+    removeStar(input:{starrableId:$repositoryId}) {
       starrable {
         viewerHasStarred
       }
@@ -111,12 +159,21 @@ const getIssuesOfRepository = (path, cursor) => {
     })
 }
 
+const removeStarFromRepo = repositoryId => {
+  return axiosGitHubGraphQL
+    .post('', {
+      query: REMOVE_STAR,
+      variables: { repositoryId },
+    })
+}
+
+
 const addStarToRepo = repositoryId => {
   return axiosGitHubGraphQL.post('', {
     query: ADD_STAR,
     variables: { repositoryId },
-  });
-};
+  })
+}
 
 class App extends Component {
   state = {
@@ -155,9 +212,18 @@ class App extends Component {
     this.onFetchFromGitHub(this.state.path, endCursor);
   }
 
-  onStarRepo = (repoId, viewerHasStarred) => {
-    addStarToRepo(repoId)
-  }
+
+  onToggleStarRepo = (repoId, viewerHasStarred) => {
+    if (viewerHasStarred) {
+      removeStarFromRepo(repoId).then(mutationResult =>
+        this.setState(resolveRemoveStarMutation(mutationResult)),
+      );
+    } else {
+      addStarToRepo(repoId).then(mutationResult =>
+        this.setState(resolveAddStarMutation(mutationResult)),
+      );
+    }
+  };
 
   render() {
     const { organization, path, errors } = this.state;
@@ -195,7 +261,7 @@ class App extends Component {
 
         {
           organization ? (
-            <Organization onStarRepo={this.onStarRepo} onFetchMoreIssues={this.onFetchMoreIssues} organization={organization} errors={errors}></Organization>
+            <Organization onToggleStarRepo={this.onToggleStarRepo} onFetchMoreIssues={this.onFetchMoreIssues} organization={organization} errors={errors}></Organization>
           ) : (
               <p>Loading...</p>
             )

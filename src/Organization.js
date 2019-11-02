@@ -2,7 +2,7 @@ import React from 'react'
 import Repository from './Repository';
 import './index.css';
 
-const Organization = ({ organization, errors, onFetchMoreIssues, onStarRepo }) => {
+const Organization = ({ organization, errors, onFetchMoreIssues, onToggleStarRepo }) => {
 
   if (errors) return (
     <div>
@@ -16,7 +16,7 @@ const Organization = ({ organization, errors, onFetchMoreIssues, onStarRepo }) =
         <strong>{`Showing Open Issues from Organization: `}</strong>
         <a href={organization.url}>{`${organization.name}`}</a>
       </p>
-      <Repository onStarRepo={onStarRepo} onFetchMoreIssues={onFetchMoreIssues} repository={organization.repository} />
+      <Repository onToggleStarRepo={onToggleStarRepo} onFetchMoreIssues={onFetchMoreIssues} repository={organization.repository} />
     </div>
   )
 }
