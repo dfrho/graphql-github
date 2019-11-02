@@ -5,20 +5,9 @@ import axios from 'axios';
 import './App.css';
 import Organization from './Organization';
 
-
-// axios creator
-const axiosGitHubGraphQL = axios.create({
-  baseURL: 'https://api.github.com/graphql',
-  headers: {
-    Authorization: `bearer ${
-      process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN
-      }`,
-  },
-});
-
 const TITLE = 'GitHub Repo Issue Tracker'
 
-// results resolvers shape return data for local state
+// results resolvers, shape return data for local state
 const resolveAddStarMutation = mutationResult => state => {
   const { viewerHasStarred } = mutationResult.data.data.addStar.starrable;
   const { totalCount } = state.organization.repository.stargazers;
@@ -87,6 +76,7 @@ const resolveIssuesQuery = (queryResult, cursor) => state => {
   };
 };
 
+// graphql query shapers
 const ADD_STAR = `
   mutation ($repositoryId: ID!) {
     addStar(input:{starrableId:$repositoryId}) {
@@ -108,7 +98,6 @@ const REMOVE_STAR = `
   }
 `;
 
-// query shaper
 const GET_ISSUES_OF_REPOSITORY = `
   query ($organization: String!, $repository: String!, $cursor: String) {
     organization(login: $organization) {
@@ -149,7 +138,17 @@ const GET_ISSUES_OF_REPOSITORY = `
   }
 `;
 
-// query-creators
+// axios creator
+const axiosGitHubGraphQL = axios.create({
+  baseURL: 'https://api.github.com/graphql',
+  headers: {
+    Authorization: `bearer ${
+      process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN
+      }`,
+  },
+});
+
+// axios-query-creators
 const getIssuesOfRepository = (path, cursor) => {
   const [organization, repository] = path.split('/');
   return axiosGitHubGraphQL
