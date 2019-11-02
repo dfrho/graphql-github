@@ -4,9 +4,9 @@ Consuming the GraphQL-based Github API, users can browse Github issues (and firs
 
 ![app screenshot](./public/screenShot.png)
 
-With poor form validation and a very basic front-end, this is still a great practice application for building GraphQL applications, based on Robin Wierich's [The Road to GraphQL](https://roadtoreact.com/course-details?courseId=THE_ROAD_TO_GRAPHQL).
+With poor form validation and a very basic front-end, this is still a great practice application for learning GraphQL under-the-hood while understanding the value of a GraphQL library like Apollo. Mainly because we're not using a GraphQL library to interact with the server but rather axios and regular HTTP requests, and we're not cacheing results yet. This project is based on Robin Wierich's [The Road to GraphQL](https://roadtoreact.com/course-details?courseId=THE_ROAD_TO_GRAPHQL).
 
-Given the API key, the app assumes the user is a GitHub user and can search for organization and repo combinations. Features include
+The app assumes the user is a GitHub user and can search for organization and repo combinations. Features include
 
 -   default display of five most recent open issues,
 -   pagination,
