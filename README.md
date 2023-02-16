@@ -1,5 +1,5 @@
 # React GraphQL GitHub Repo Issue Checker
-[Deployed:](https://gleeful-squirrel-3320fa.netlify.app/)
+[Deployed](https://gleeful-squirrel-3320fa.netlify.app/)
 
 Consuming the GraphQL-based Github API, users can browse Github issues (and first three emoji reactions, if any) by entering an organization's repo name. Assumes a forward slash between both fields, as in "facebook/create-react-app".
 
